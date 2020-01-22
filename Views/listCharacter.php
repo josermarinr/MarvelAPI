@@ -1,7 +1,4 @@
-<?php
 
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,14 +45,14 @@
                 <div class="grid-container-1">
                     <div class="divpagination">
                         <?php echo $Paginator->createLinks( ); ?> 
-                            <!-- <span class="linkpaginacion"><a href="">1</a></span> -->
+                          
                     </div>
                 </div>
            </div>
             
                 
             
-        <div class="card">
+        <!-- <div class="card">
             <div class="grid-container-1 form-container">
                 <div class="title">
                     <h2>Nouveau personnage</h2>
@@ -78,7 +75,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
     </div>
 </body>
 </html>

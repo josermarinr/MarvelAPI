@@ -1,9 +1,6 @@
 <?php
 class searchHero{
      function conectingbd(){
-
-     }
-     public function searh_data(){
         $server = 'localhost';
         $user = 'root';
         $pw = '';
@@ -13,9 +10,13 @@ class searchHero{
             die("Connection failed: " . $conexion->connect_error);
             
         }
+        return $conexion;
         
-        
+     }
+     public function searh_data(){
+                
         $query = ("SELECT publickey, hashi  FROM `keys`;");
+        $conexion = searchHero::conectingbd();
         $consult = $conexion->query($query);
         if($consult->num_rows > 0){
             while($datas = $consult->fetch_assoc()) {
@@ -23,35 +24,19 @@ class searchHero{
             $hash= $datas["hashi"];
             }
         }else{
-            echo 'sin resultados';
+            echo 'without result';
         }
         $consult->close();
         
-       
- 
-    
         $MarvelUrlAPI = file_get_contents("https://gateway.marvel.com/v1/public/characters?limit=10&ts=1&apikey=$publickey&hash=$hash");
         $res = json_encode($MarvelUrlAPI);
-
         $res1= html_entity_decode($res);
         $res2 = json_decode($res1, TRUE);
-
         $code = json_decode($res2, TRUE);
         $data = $code["data"]["results"];
         
-     
-        $server = "localhost"; 
-        $user = "root";
-        $pw = "";
-        $bd = 'marvel';
-      
-
-       
-            $cone = mysqli_connect($server, $user, $pw, $bd);
-            if ($cone->connect_error) {
-                die("Connection failed: " . $cone->connect_error);
-            }
-            for($i=0; $i<count($data); $i++){
+        $cone = searchHero::conectingbd();   
+        for($i=0; $i<count($data); $i++){
                 $name = $data[$i]["name"];
                 $path= $data[$i]["thumbnail"]["path"];
                 $ext = $data[$i]["thumbnail"]["extension"];
@@ -67,31 +52,19 @@ class searchHero{
                 }
             }
               
-            $cone->close();
-       
-        
-
-        
+        $cone->close();
+          
         return $data;
     
-     
     }
 
 }
         $ts = 1;
-        $publickey = $_POST['publickey']; //'4b2a4151e3465fb0751f8eae06a79ed7';
-        $privatekey = $_POST['privatekey'];//'5a96268e18757274a90e5045025f8c8f941ac839';
+        $publickey = $_POST['publickey']; 
+        $privatekey = $_POST['privatekey'];
         $hash = md5($ts . $privatekey . $publickey);  
         
-        $server = 'localhost';
-        $user = 'root';
-        $pw = '';
-        $bd = 'marvel';
-            $cone = mysqli_connect($server, $user, $pw, $bd);
-            if ($cone->connect_error) {
-                die("Connection failed: " . $cone->connect_error);
-            }
-        
+        $cone = searchHero::conectingbd();     
         $data = "INSERT INTO `keys` ( privatekey, publickey, hashi ) 
         VALUES('$privatekey', '$publickey', '$hash')";
         
