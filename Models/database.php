@@ -1,7 +1,7 @@
 <?php
 class Databasemodel {
     private $conexion;
-    private $keys;
+    
     public function database(){
         $server = 'localhost';
         $user = 'root';
@@ -14,7 +14,7 @@ class Databasemodel {
         require_once("Controllers\apiController.php");
         }else{
         echo "Databse does not exists";
-        $this->conexion=Conexion::db();
+        $this->conexion=conexion::db();
         $consult= $this->conexion->query("SELECT * FROM keys;");
         
         require_once("Controllers\apiController.php");

@@ -1,7 +1,7 @@
 <?php
 
-class Conexion extends mysqli{
-       public static function conecting(){
+class conexion extends mysqli{
+    public static function conecting(){
         $server = 'localhost';
         $user = 'root';
         $pw = '';
